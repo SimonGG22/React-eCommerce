@@ -4,7 +4,7 @@ function SignIn() {
   return (
     <>
       <Layout className="bg-red-200">
-            SignIn  
+            Sign In  
       </Layout>
      
     </>
