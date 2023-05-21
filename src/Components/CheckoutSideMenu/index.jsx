@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { ShoppingCartContext } from '../../Context'
 import OrderCard from '../../Components/OrderCard'
@@ -11,6 +12,19 @@ const CheckoutSideMenu = () => {
   const handleDelete = (id) => {
     const filteredProducts = context.cartProducts.filter(product => product.id !== id)
     context.setCartProducts(filteredProducts)
+    context.setCount(context.count - 1)
+  }
+
+  const handleCheckout = () => {
+    const orderToAdd = {
+      date: '01.02.23',
+      products: context.cartProducts,
+      totalProducts: context.cartProducts.length,
+      totalPrice: totalPrice(context.cartProducts)
+    }
+    context.setOrder([...context.order, orderToAdd])
+    context.setCartProducts([]) // Elimina todo lo que estaba en cartProducts
+    context.setCount(0)
   }
 
   return (
@@ -26,7 +40,7 @@ const CheckoutSideMenu = () => {
           />
         </div>
       </div>
-      <div className='px-6'>
+      <div className='px-6 flex-1'>
         {
           context.cartProducts.map(product => (
             <OrderCard
@@ -40,11 +54,14 @@ const CheckoutSideMenu = () => {
           ))
         }
       </div>
-      <div className='px-6'>
-        <p className='flex justify-end items-center gap-2'>
+      <div className='px-6 mb-6'>
+        <p className='flex justify-end items-center gap-2 mb-3'>
           <span className='font-normal'>Total:</span>
           <span className='font-medium text-xl'>${totalPrice(context.cartProducts)}</span>
         </p>
+        <Link to='/my-orders/last'>
+          <button className='bg-black py-3 text-white w-full rounded-lg' onClick={() => handleCheckout()}>Checkout</button>
+        </Link>
       </div>
     </aside>
   )
