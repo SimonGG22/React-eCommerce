@@ -25,6 +25,7 @@ const CheckoutSideMenu = () => {
     context.setOrder([...context.order, orderToAdd])
     context.setCartProducts([]) // Elimina todo lo que estaba en cartProducts
     context.setCount(0)
+    context.setSearchByTitle(null)
   }
 
   return (
